@@ -134,6 +134,16 @@ The backend sends this to the GDD ML service, receives the structured growth out
 - Backend: Render
 - ML services: Render
 
+## Team
+
+This project was developed as a group project.
+
+Team members:
+
+- Harshit Bhan
+- Sanjeev Singh
+- Pawan Lavate
+
 ## Repository Structure
 
 ```text
