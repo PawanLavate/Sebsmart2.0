@@ -4,6 +4,9 @@ import { generateText } from "../config/ai.js";
 import fs from "fs";
 import FormData from "form-data";   
 
+const PEST_MODEL_URL =
+  process.env.PEST_MODEL_URL || "http://127.0.0.1:5000/pests";
+
 export const detectPest = async (req, res) => {
   try {
     const { location, cropStage } = req.body;
@@ -19,13 +22,11 @@ export const detectPest = async (req, res) => {
     const absoluteImagePath = path.resolve(imagePath);
 
     // ML model endpoint
-    const ML_MODEL_URL = "http://127.0.0.1:5000/pests";
-
     // ---- SEND MULTIPART FORM DATA TO FLASK ----
     const formData = new FormData();                       
     formData.append("file", fs.createReadStream(absoluteImagePath));
 
-    const mlResponseRaw = await axios.post(ML_MODEL_URL, formData, {
+    const mlResponseRaw = await axios.post(PEST_MODEL_URL, formData, {
       headers: {
         ...formData.getHeaders(),                           
       },

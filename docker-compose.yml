@@ -1,0 +1,45 @@
+services:
+  yield-model:
+    build:
+      context: ./mlmodels/yield_estimation
+    ports:
+      - "5001:5001"
+
+  pest-model:
+    build:
+      context: ./mlmodels/pest_control
+    ports:
+      - "5000:5000"
+
+  gdd-model:
+    build:
+      context: ./mlmodels/gdd
+    ports:
+      - "5002:5002"
+
+  server:
+    build:
+      context: ./server
+    env_file:
+      - ./server/.env
+    environment:
+      YIELD_MODEL_URL: http://yield-model:5001/predict
+      PEST_MODEL_URL: http://pest-model:5000/pests
+      GDD_MODEL_URL: http://gdd-model:5002/run-gdd
+    depends_on:
+      - yield-model
+      - pest-model
+      - gdd-model
+    ports:
+      - "3000:3000"
+
+  client:
+    build:
+      context: ./client
+      args:
+        VITE_BASE_URL: http://localhost:3000
+        VITE_CLERK_PUBLISHABLE_KEY: ${VITE_CLERK_PUBLISHABLE_KEY:-}
+    depends_on:
+      - server
+    ports:
+      - "5173:80"

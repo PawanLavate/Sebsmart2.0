@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { generateText } from '../config/ai.js';
 
+const YIELD_MODEL_URL =
+  process.env.YIELD_MODEL_URL || 'http://localhost:5001/predict';
+
 export const yieldEstimation = async (req, res) => {
   try {
     const {
@@ -33,9 +36,7 @@ export const yieldEstimation = async (req, res) => {
     // SEND DATA TO YOUR ML MODEL
     // -------------------------
 
-    const mlResponse = await axios.post(
-    "http://localhost:5001/predict",
-    {
+    const mlResponse = await axios.post(YIELD_MODEL_URL, {
       District_name,
       species,
       growth_stage,
@@ -43,8 +44,7 @@ export const yieldEstimation = async (req, res) => {
       weather,
       pesticides,
       tree_count: Number(tree_count),
-    }
-  );
+    });
 
   
 

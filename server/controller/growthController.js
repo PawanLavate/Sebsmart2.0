@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { generateText } from '../config/ai.js';
 
+const GDD_MODEL_URL =
+  process.env.GDD_MODEL_URL || 'http://localhost:5002/run-gdd';
+
 export const timeSeriesGrowth = async (req, res) => {
   try {
     console.log('➡️ Incoming Request Body:', req.body);
@@ -38,7 +41,7 @@ export const timeSeriesGrowth = async (req, res) => {
     });
 
     // ---- CALL PYTHON MODEL ----
-    const mlResponse = await axios.post('http://localhost:5002/run-gdd', {
+    const mlResponse = await axios.post(GDD_MODEL_URL, {
       variety,
       soil,
       accumulated_gdd,
