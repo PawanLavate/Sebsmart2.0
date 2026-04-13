@@ -376,3 +376,5 @@ The system is working end-to-end for:
 - GDD / phenology forecasting
 
 The remaining production issue is limited to the TensorFlow-based pest inference service on free-tier infrastructure.
+
+pawan
